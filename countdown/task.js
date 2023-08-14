@@ -3,6 +3,7 @@ const changeTimer = () => {
     currentState.textContent -= 1;
     if (currentState.textContent == 0) {
         alert("Вы победили в конкурсе!");
+        clearInterval(intervalId);
     }
 };
 
