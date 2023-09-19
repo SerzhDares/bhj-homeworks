@@ -22,16 +22,22 @@ incProduct.forEach((item,index) => {
 
 addButtons.forEach((item, index) => {
     item.addEventListener('click', () => {
-        cart.insertAdjacentHTML('afterbegin', '<div class="cart__product" data-id=""><img class="cart__product-image" src="image.png"><div class="cart__product-count">20</div></div>');
-        document.querySelector('.cart__product-count').textContent = quanProduct[index].textContent;
-        document.querySelector('.cart__product').setAttribute('data-id', ids[index].getAttribute('data-id'));
-        document.querySelector('.cart__product-image').setAttribute('src', imgs[index].getAttribute('src'));
+        if(!document.querySelector('.cart__product')) {
+            cart.insertAdjacentHTML('afterBegin', '<div class="cart__product" data-id=""><img class="cart__product-image" src=""><div class="cart__product-count"></div></div>');
+        }
         const cartProducts = Array.from(document.querySelectorAll('.cart__product'));
-        // cartProducts.forEach(prod => {
-        //     if(prod.getAttribute('data-id') == ids[index].getAttribute('data-id')) {
-        //         document.querySelector('.cart__product-count').textContent += quanProduct[index].textContent;
-        //     }
-        // })
+        const cartProductsCounts = Array.from(document.querySelectorAll('.cart__product-count'));
+        cartProducts.forEach((prod, i) => {
+            let prodInCart = prod.getAttribute('data-id');
+            let addedProd = ids[index].getAttribute('data-id');
+            if(addedProd == prodInCart) {
+                cartProductsCounts[i].textContent = Number(cartProductsCounts[i].textContent) + Number(quanProduct[index].textContent);
+            } else {
+                // cart.insertAdjacentHTML('<div class="cart__product" data-id=""><img class="cart__product-image" src=""><div class="cart__product-count"></div></div>')
+                document.querySelector('.cart__product-count').textContent = quanProduct[index].textContent;
+                document.querySelector('.cart__product').setAttribute('data-id', ids[index].getAttribute('data-id'));
+                document.querySelector('.cart__product-image').setAttribute('src', imgs[index].getAttribute('src'));
+            }
+        })   
     })
 })
-
