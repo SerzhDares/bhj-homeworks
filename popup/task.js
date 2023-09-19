@@ -1,5 +1,4 @@
 const popup = document.querySelector('.modal');
-popup.classList.add('modal_active');
 const popupClose = document.querySelector('.modal__close');
 
 let getCookie = key => {
@@ -8,8 +7,8 @@ let getCookie = key => {
     return cookie.substring(key.length + 1);
 }
 
-if (getCookie('modal-active') == 'no') {
-    popup.classList.remove('modal_active');
+if (getCookie('modal-active') == undefined) {
+    popup.classList.add('modal_active');
 };
 
 let setCookie = (key, value) => {
