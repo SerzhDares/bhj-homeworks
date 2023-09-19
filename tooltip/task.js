@@ -6,9 +6,8 @@ links.forEach((link, index) => {
         links[index].insertAdjacentHTML('beforeEnd', '<div class="tooltip">Текст подсказки</div>');
         const newDiv = document.querySelector('.tooltip');
         newDiv.textContent = link.title;
-        // if(newDiv.classList.contains('tooltip_active')) {
-        //     newDiv.classList.remove('tooltip_active');
-        // }
+        newDiv.style.top = links[index].getBoundingClientRect().bottom + 'px';
+        newDiv.style.left = links[index].getBoundingClientRect().left + 'px';
         newDiv.classList.toggle('tooltip_active');
     })
 
