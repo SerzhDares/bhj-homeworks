@@ -24,20 +24,33 @@ addButtons.forEach((item, index) => {
     item.addEventListener('click', () => {
         if(!document.querySelector('.cart__product')) {
             cart.insertAdjacentHTML('afterBegin', '<div class="cart__product" data-id=""><img class="cart__product-image" src=""><div class="cart__product-count"></div></div>');
-        }
-        const cartProducts = Array.from(document.querySelectorAll('.cart__product'));
-        const cartProductsCounts = Array.from(document.querySelectorAll('.cart__product-count'));
-        cartProducts.forEach((prod, i) => {
-            let prodInCart = prod.getAttribute('data-id');
-            let addedProd = ids[index].getAttribute('data-id');
-            if(addedProd == prodInCart) {
-                cartProductsCounts[i].textContent = Number(cartProductsCounts[i].textContent) + Number(quanProduct[index].textContent);
-            } else {
-                // cart.insertAdjacentHTML('<div class="cart__product" data-id=""><img class="cart__product-image" src=""><div class="cart__product-count"></div></div>')
-                document.querySelector('.cart__product-count').textContent = quanProduct[index].textContent;
-                document.querySelector('.cart__product').setAttribute('data-id', ids[index].getAttribute('data-id'));
-                document.querySelector('.cart__product-image').setAttribute('src', imgs[index].getAttribute('src'));
+            document.querySelector('.cart__product-count').textContent = quanProduct[index].textContent;
+            document.querySelector('.cart__product').setAttribute('data-id', ids[index].getAttribute('data-id'));
+            document.querySelector('.cart__product-image').setAttribute('src', imgs[index].getAttribute('src'));
+        } else {
+            const cartProducts = Array.from(document.querySelectorAll('.cart__product'));
+            const cartProductsCounts = Array.from(document.querySelectorAll('.cart__product-count'));
+            let indexArr = [];
+            for (let i = 0; i < cartProducts.length; i++) {
+                indexArr.push(cartProducts[i].getAttribute('data-id'));
             }
-        })   
+            let addedProd = ids[index].getAttribute('data-id');
+            if(indexArr.includes(addedProd)) {
+                cartProductsCounts[indexArr.indexOf(addedProd)].textContent = Number(cartProductsCounts[indexArr.indexOf(addedProd)].textContent) + Number(quanProduct[index].textContent);
+            } else {
+                let cartProductDiv = document.createElement('div');
+                let cartProdImg = document.createElement('img');
+                let cartProdCount = document.createElement('div');
+                cartProductDiv.className = "cart__product";
+                cartProductDiv.setAttribute('data-id', ids[index].getAttribute('data-id'));
+                cart.append(cartProductDiv);
+                cartProdImg.className = "cart__product-image";
+                cartProdImg.setAttribute('src', imgs[index].getAttribute('src'));
+                cartProductDiv.append(cartProdImg);
+                cartProdCount.className = "cart__product-count";
+                cartProdCount.textContent = quanProduct[index].textContent;
+                cartProductDiv.append(cartProdCount);
+            }
+        }
     })
 })
